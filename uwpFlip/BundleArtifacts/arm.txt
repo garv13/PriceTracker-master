@@ -1,0 +1,3 @@
+MainPackage=C:\Users\garvj\Desktop\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.1.2.0_ARM.appx
+SymbolPackage=C:\Users\garvj\Desktop\lol\uwpFlip_1.1.2.0_Test\uwpFlip_1.1.2.0_ARM.appxsym
+ResourcePack=C:\Users\garvj\Desktop\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.1.2.0_scale-100.appx
