@@ -39,13 +39,13 @@ namespace MyTask
                     pri.Clear();
                     foreach (char p in arr)
                     {
-                        if (char.IsDigit(p))
+                        if (char.IsDigit(p) || p =='.')
                         {
                             pri.Add(p);
                         }
                     }
                     str = string.Join("", pri.ToArray());
-                    int i = int.Parse(str);
+                    float i = float.Parse(str);
                     if (i < p.price)
                     {
                         pName.Add(p.name);

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -87,8 +88,11 @@ namespace uwpFlip
         private void Image_Tapped_1(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview1.Navigate(new Uri("http://snapdeal.com", UriKind.Absolute));
+
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://snapdeal.com"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+
+            MyWebview1.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             snap.Visibility = Visibility.Visible;
         }
@@ -111,7 +115,7 @@ namespace uwpFlip
                 p.url = "http://www.akshaygupta.xyz/snapdeal?url=" + url;
             else if (url.Contains("amazon.com"))
                 p.url = "http://www.akshaygupta.xyz/amazon/usa?url=" + url;
-            else if (url.Contains("amazon.co.in"))
+            else if (url.Contains("amazon.in"))
                 p.url = "http://www.akshaygupta.xyz/amazon/india?url=" + url;
             else if (url.Contains("amazon"))
                 p.url = "http://www.akshaygupta.xyz/amazon/uk?url=" + url;
@@ -127,13 +131,13 @@ namespace uwpFlip
                 char[] arr = str.ToCharArray();
                 foreach (char p in arr)
                 {
-                    if(char.IsDigit(p))
+                    if(char.IsDigit(p) || p =='.')
                     {
                         pri.Add(p);
                     }
                 }
                 str = string.Join("", pri.ToArray());
-                p.price = int.Parse(str);
+                p.price = float.Parse(str);
                 p.name = name;
                 p.time = DateTime.Now;
                 await fileWrite();
@@ -216,21 +220,13 @@ namespace uwpFlip
             flip.Visibility = Visibility.Collapsed;
         }
 
-
-        [DllImport("urlmon.dll", CharSet = CharSet.Ansi)]
-        private static extern int UrlMkSetSessionOption(int dwOption, string pBuffer, int dwBufferLength, int dwReserved);
-
-        const int URLMON_OPTION_USERAGENT = 0x10000001;
-        public void ChangeUserAgent(string Agent)
-        {
-            UrlMkSetSessionOption(URLMON_OPTION_USERAGENT, Agent, Agent.Length, 0);
-        }
-
         private void Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://jabong.com", UriKind.Absolute));
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://jabong.com"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            //ChangeUserAgent(add);
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
 
@@ -239,17 +235,44 @@ namespace uwpFlip
         private void Button_Tapped_2(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://amazon.com", UriKind.Absolute));
+            //  ChangeUserAgent(add);
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.com"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
         }
 
+        private void MyWebView_NewWindowRequested(
+             WebView sender,
+             WebViewNewWindowRequestedEventArgs args)
+        {
+            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, args.Uri);
+            httpRequestMessage.Headers.Add("User-Agent", add);
+
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
+            args.Handled = true; // Prevent the browser from being launched.
+        }
+
+        private void MyWebView1_NewWindowRequested(
+           WebView sender,
+           WebViewNewWindowRequestedEventArgs args)
+        {
+            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, args.Uri);
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            MyWebview1.NavigateWithHttpRequestMessage(httpRequestMessage);
+            args.Handled = true; // Prevent the browser from being launched.
+        }
         private void Button_Tapped_3(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://amazon.co.in", UriKind.Absolute));
+            //ChangeUserAgent(add);
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.in"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
         }
@@ -257,8 +280,10 @@ namespace uwpFlip
         private void Button_Tapped_4(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://amazon.it", UriKind.Absolute));
+            // ChangeUserAgent(add);
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.it"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
         }
@@ -266,8 +291,10 @@ namespace uwpFlip
         private void Button_Tapped_5(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://amazon.co.uk", UriKind.Absolute));
+            // ChangeUserAgent(add);
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.co.uk"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
         }
@@ -275,8 +302,10 @@ namespace uwpFlip
         private void Button_Tapped_6(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://amazon.de", UriKind.Absolute));
+            // ChangeUserAgent(add);
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.de"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
         }
@@ -284,9 +313,10 @@ namespace uwpFlip
         private void Button_Tapped_7(object sender, TappedRoutedEventArgs e)
         {
             var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
-            ChangeUserAgent(add);
-            MyWebview.Navigate(new Uri("http://amazon.co.jp", UriKind.Absolute));
-            frstScreen.Visibility = Visibility.Collapsed;
+            //ChangeUserAgent(add);
+            var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.co.jp"));
+            httpRequestMessage.Headers.Add("User-Agent", add);
+            MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
             flip.Visibility = Visibility.Visible;
         }
     }

@@ -122,10 +122,16 @@ namespace uwpFlip
             try
             {
                 localFolder = ApplicationData.Current.LocalFolder;
-                StorageFile sampleFile = await localFolder.GetFileAsync("dataFile.txt");
+                StorageFile sampleFile = await localFolder.CreateFileAsync("dataFile.txt", CreationCollisionOption.OpenIfExists);
                 IList<string> y = new List<string>();
                 y = await FileIO.ReadLinesAsync(sampleFile);
                 string change = File.ReadAllText(sampleFile.Path);
+                if(y.Count == 0)
+                {
+                    await (new MessageDialog("No Item added")).ShowAsync();
+                    return;
+
+                }
                 HttpClient cl = new HttpClient();
                 foreach(string item in y)
                 {
@@ -143,13 +149,13 @@ namespace uwpFlip
                     pri.Clear();
                     foreach (char p in arr)
                     {
-                        if (char.IsDigit(p))
+                        if (char.IsDigit(p) || p == '.')
                         {
                             pri.Add(p);
                         }
                     }
                     str = string.Join("", pri.ToArray());
-                    int i = int.Parse(str);
+                    float i = float.Parse(str);
 
                     p1.current_Price = i.ToString();
                     //if (i < p.price)
@@ -182,7 +188,7 @@ namespace uwpFlip
                         p1.bitmapImage = new BitmapImage(new Uri(this.BaseUri, "/Assets/amazon_usa.jpg"));
                         items.Add(p1);
                     }
-                    else if (p.url.Contains("amazon.co.in"))
+                    else if (p.url.Contains("amazon.in"))
                     {
                         p1.price ="Rs. " + p.price.ToString();
                         p1.current_Price = "Present Price: " + "Rs. " + p1.current_Price;
@@ -196,7 +202,7 @@ namespace uwpFlip
                         p1.bitmapImage = new BitmapImage(new Uri(this.BaseUri, "/Assets/amazon_uk.jpg"));
                         items.Add(p1);
                     }
-                    else if (p.url.Contains("amazon.co.de"))
+                    else if (p.url.Contains("amazon.de"))
                     {
                         p1.price ="EUR " + p.price.ToString();
                         p1.current_Price = "Present Price: " + "EUR " + p1.current_Price;
@@ -235,7 +241,7 @@ namespace uwpFlip
             catch (Exception)
             {
 
-                await (new MessageDialog("Prices can't update now .... Try again")).ShowAsync();
+                await (new MessageDialog("Prices can't be updated now .Please try again later")).ShowAsync();
             }
         }
 

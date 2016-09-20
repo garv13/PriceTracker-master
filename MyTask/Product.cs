@@ -10,7 +10,7 @@ namespace MyTask
     {
         public string name;
         public string url;
-        public int price;
+        public float price;
         public DateTime time;
     }
 }

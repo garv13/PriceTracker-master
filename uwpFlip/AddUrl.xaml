@@ -43,58 +43,61 @@
 
         <SplitView.Content>
             <Grid Background="#646464">
-                <Grid x:Name="frstScreen" Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.075*"/>
-                    <RowDefinition Height="0.3*"/>
-                        <RowDefinition Height="0.3*"/>
-                        <RowDefinition Height="0.3*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.3*"/>
-                        <ColumnDefinition Width="0.3*"/>
-                        <ColumnDefinition Width="0.3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.ColumnSpan="3" Background="#171717">
-                        <TextBlock Text="Add Url" FontSize="30" Margin="5,0,0,0"/>
-                    </Grid>
-                    <Button Grid.Row="1"  Tapped="Image_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/Flipkart.png"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.ColumnSpan="3" Background="#171717">
+                    <TextBlock Text="Add Url" FontSize="30" Margin="5,0,0,0"/>
+                </Grid>
+                <GridView x:Name="frstScreen" Grid.Row="1" Visibility="Visible"
+                            ScrollViewer.HorizontalScrollMode="Disabled" 
+                            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                            ScrollViewer.VerticalScrollMode="Enabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                           <ItemsWrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                                   
+                    <Button Tapped="Image_Tapped" MaxHeight="200">
+                        <Image  Source="/Assets/Flipkart.png" />
                     </Button>
-                    <Button Grid.Row="2"  Tapped="Image_Tapped_1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/snapdeal.png" />
+                    <Button Tapped="Image_Tapped_1" MaxHeight="200">
+                        <Image  Source="/Assets/snapdeal.png" Stretch="Fill"/>
                     </Button>
-                    <Button Grid.Row="3"  Grid.Column="0" Tapped="Button_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/JABONG.jpeg" />
-                    </Button>
-
-                    <Button Grid.Row="1"  Grid.Column="3" Tapped="Button_Tapped_2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/amazon_usa.jpg" />
-                    </Button>
-
-                    <Button Grid.Row="1"  Grid.Column="1" Tapped="Button_Tapped_3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/amazon_india.jpg" />
+                    <Button Tapped="Button_Tapped">
+                        <Image  Source="/Assets/JABONG.jpeg" Stretch="Fill" />
                     </Button>
 
-                    <Button Grid.Row="2"  Grid.Column="2" Tapped="Button_Tapped_4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/amazon_italy.jpg" />
+                    <Button Tapped="Button_Tapped_2">
+                        <Image  Source="/Assets/amazon_usa.jpg" Stretch="Fill"/>
                     </Button>
 
-                    <Button Grid.Row="2" Grid.Column="1" Tapped="Button_Tapped_5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/amazon_uk.jpg" />
+                    <Button Tapped="Button_Tapped_3">
+                        <Image  Source="/Assets/amazon_india.jpg" Stretch="Fill"/>
                     </Button>
 
-                    <Button Grid.Row="3"  Grid.Column="1" Tapped="Button_Tapped_6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/amazon_germany.jpg" />
+                    <Button Tapped="Button_Tapped_4">
+                        <Image  Source="/Assets/amazon_italy.jpg" Stretch="Fill" />
+                    </Button>
+
+                    <Button Tapped="Button_Tapped_5">
+                        <Image  Source="/Assets/amazon_uk.jpg" Stretch="Fill"/>
+                    </Button>
+
+                    <Button Tapped="Button_Tapped_6">
+                        <Image  Source="/Assets/amazon_germany.jpg" Stretch="Fill"/>
                     </Button>
                     
-                    <Button Grid.Row="3"  Grid.Column="2" Tapped="Button_Tapped_7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Image  Source="/Assets/amazon_japan.jpg" />
+                    <Button Tapped="Button_Tapped_7">
+                        <Image  Source="/Assets/amazon_japan.jpg" Stretch="Fill"/>
                     </Button>
-                </Grid>
-                <Grid x:Name="flip" Visibility="Collapsed">
+                </GridView>
+                <Grid x:Name="flip" Grid.Row="1" Visibility="Collapsed">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition Height="0"/>
                         <RowDefinition Height="0.1*"/>
                         <RowDefinition Height="0"/>
                         <RowDefinition Height="0.80*"/>
@@ -104,20 +107,16 @@
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition Width="0.4*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.ColumnSpan="3" Background="#171717">
-                        <TextBlock Text="Add Url" FontSize="30" Margin="5,0,0,0"/>
-                        <Button x:Name="back" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;"
-                    Width="50" Height="50" Background="Transparent" Click="back1_Click" HorizontalAlignment="Right"/>
-                    </Grid>
+                  
                     <TextBox x:Name="textBox" TextWrapping="Wrap" PlaceholderText="enter Url" VerticalAlignment="Top" Grid.Row="1" Height="50" Width="250" Visibility="Collapsed"/>
                     <TextBox x:Name="textBoxN" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" PlaceholderText="enter name of product" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1" Height="50" Width="250"/>
                     <TextBlock Text="OR browse" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Visibility="Collapsed"/>
-                    <WebView x:Name="MyWebview" Grid.ColumnSpan="3" Visibility="Visible" Grid.Row="3" NavigationCompleted="MyWebview_NavigationCompleted" />
+                    <WebView x:Name="MyWebview" Grid.ColumnSpan="3" NewWindowRequested="MyWebView_NewWindowRequested" Visibility="Visible" Grid.Row="3" NavigationCompleted="MyWebview_NavigationCompleted" />
                     
                 </Grid>
-                <Grid x:Name="snap" Visibility="Collapsed">
+                <Grid x:Name="snap" Grid.Row="1" Visibility="Collapsed">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.1*"/>
+                        <RowDefinition Height="0"/>
                         <RowDefinition Height="0.1*"/>
                         <RowDefinition Height="0"/>
                         <RowDefinition Height="0.80*"/>
@@ -127,16 +126,10 @@
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition Width="0.4*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.ColumnSpan="3" Background="#171717">
-                        <TextBlock Text="Add Url" FontSize="30" Margin="5,0,0,0"/>
-                        <Button x:Name="back1" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;"
-                    Width="50" Height="50" Background="Transparent" Click="back1_Click" HorizontalAlignment="Right"/>
-                    </Grid>
-
                     <TextBox x:Name="textBox1" TextWrapping="Wrap" PlaceholderText="enter Url" VerticalAlignment="Top" Grid.Row="1" Height="50" Width="250" Visibility="Collapsed"/>
                     <TextBox x:Name="textBox2" Grid.Column="0" Grid.ColumnSpan="3" TextWrapping="Wrap" PlaceholderText="enter name of product" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="1" Height="50" Width="250"/>
                     <TextBlock Text="OR browse" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Visibility="Collapsed"/>
-                    <WebView x:Name="MyWebview1" Grid.ColumnSpan="3"  Visibility="Visible" Grid.Row="3" NavigationCompleted="MyWebview_NavigationCompleted" />
+                    <WebView x:Name="MyWebview1" Grid.ColumnSpan="3" NewWindowRequested="MyWebView1_NewWindowRequested" Visibility="Visible" Grid.Row="3" NavigationCompleted="MyWebview_NavigationCompleted" />
                 </Grid>
             </Grid>
         </SplitView.Content>

@@ -27,9 +27,9 @@
                         </Grid.ColumnDefinitions>
 
                         <Image x:Name="eventImg" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Source="{Binding bitmapImage}" Opacity="50"/>
-                        <TextBlock x:Name="title" TextAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Grid.ColumnSpan="2" TextWrapping="WrapWholeWords" FontWeight="SemiBold" Margin="10,0,0,0" Text="{Binding name}" Foreground="#646464"/>
-                        <TextBlock x:Name="spons" TextAlignment="Center"  Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding price}" Foreground="#646464" Margin="10,0,0,0"/>
-                        <TextBlock x:Name="Present_Price" TextAlignment="Center"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding current_Price}" Foreground="#003AFF" Margin="10,0,0,0"/>
+                        <TextBlock x:Name="title" TextAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Grid.ColumnSpan="2" TextWrapping="WrapWholeWords" Padding="10,0,0,0" FontWeight="SemiBold" Text="{Binding name}" Foreground="#646464"/>
+                        <TextBlock x:Name="spons" TextAlignment="Center"  Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding price}" Padding="10,0,0,0" Foreground="#646464" />
+                        <TextBlock x:Name="Present_Price" TextAlignment="Center"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding current_Price}" Foreground="#003AFF"/>
                         <Button x:Name="DeleteBut" Content="Delete Item" Grid.Row="2" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#6A0813" Click="DeleteBut_Click" Tag="{Binding name}"/>
                     </Grid>
                 </Border>
