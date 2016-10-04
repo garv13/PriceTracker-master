@@ -21,7 +21,7 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>DB35E28464BB1BB89A8DED64702D4853EF3FB9ED</PackageCertificateThumbprint>
-    <AppxPackageDir>C:\Users\garvj\Desktop\lol\lol1\</AppxPackageDir>
+    <AppxPackageDir>E:\me\comp codes\PriceTracker-master\lol\lol1\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -142,6 +142,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\310_150.png" />
     <Content Include="Assets\amazon_germany.jpg" />
     <Content Include="Assets\amazon_india.jpg" />
     <Content Include="Assets\amazon_italy.jpg" />
@@ -163,6 +164,8 @@
     <Content Include="Assets\flipPic.jpg" />
     <Content Include="Assets\snapPic.png" />
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -217,9 +220,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.AdMediator.Universal, Version=1.0">
-      <Name>Microsoft Advertising Universal SDK</Name>
-    </SDKReference>
     <SDKReference Include="Microsoft.Advertising.Xaml, Version=10.0">
       <Name>Microsoft Advertising SDK for XAML</Name>
     </SDKReference>

@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:uwpFlip"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:Universal="using:Microsoft.AdMediator.Universal"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Page.Resources>
@@ -28,8 +27,8 @@
 
                         <Image x:Name="eventImg" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Source="{Binding bitmapImage}" Opacity="50"/>
                         <TextBlock x:Name="title" TextAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Grid.ColumnSpan="2" TextWrapping="WrapWholeWords" Padding="10,0,0,0" FontWeight="SemiBold" Text="{Binding name}" Foreground="#646464"/>
-                        <TextBlock x:Name="spons" TextAlignment="Center"  Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding price}" Padding="10,0,0,0" Foreground="#646464" />
-                        <TextBlock x:Name="Present_Price" TextAlignment="Center"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding current_Price}" Foreground="#003AFF"/>
+                        <TextBlock x:Name="spons" TextAlignment="Center"  Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding price}" Padding="10,0,0,0" TextWrapping="WrapWholeWords" Foreground="#646464" />
+                        <TextBlock x:Name="Present_Price" TextAlignment="Center"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding current_Price}" TextWrapping="WrapWholeWords" Foreground="#003AFF"/>
                         <Button x:Name="DeleteBut" Content="Delete Item" Grid.Row="2" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#6A0813" Click="DeleteBut_Click" Tag="{Binding name}"/>
                     </Grid>
                 </Border>
@@ -40,7 +39,7 @@
     <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="150" >
         <SplitView.Pane>
-            <StackPanel >
+            <StackPanel>
                 <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                     Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
@@ -54,7 +53,7 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Help" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton4" Tag="" Content="Rate Us;"
+                <RadioButton x:Name="MenuButton4" Tag="" Content="Rate Us"
                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>
 
                 <RadioButton x:Name="MenuButton5" Tag="" Content="About" Style="{StaticResource SplitViewNavButtonStyle}"
@@ -64,6 +63,7 @@
         </SplitView.Pane>
         <SplitView.Content>
             <Grid Background="#646464">
+             
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.075*"/>
                     <RowDefinition Height="92"/>
@@ -88,8 +88,10 @@
                         IsSwipeEnabled="True"
                       >
                 </GridView>
-                <Universal:AdMediatorControl x:Name="AdMediator_24D058" Grid.Row="3" HorizontalAlignment="Stretch" Height="90" Id="AdMediator-Id-90169C07-6539-4309-B7EC-5C54A562D79C" VerticalAlignment="Top" Width="728"/>
-                <Universal:AdMediatorControl x:Name="AdMediator_6351B3" Grid.Row="1" HorizontalAlignment="Stretch" Height="90" Id="AdMediator-Id-EF141D72-7FF1-4FC7-A4C5-58671823792E" VerticalAlignment="Top" Width="728"/>
+                <Grid x:Name="myAdGrid" Grid.Row="3" HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" Width="640"/>
+                <Grid x:Name="myAdGrid1" Grid.Row="1" HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" Width="640"/>
+                <ProgressBar x:Name="loading_Bar"  HorizontalAlignment="Stretch" Grid.RowSpan="4" VerticalAlignment="Stretch" Height="120" Visibility="Collapsed"/>
+                <TextBlock x:Name="No_Item_Text" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="10,0,0,0" Visibility="Collapsed" Grid.Row="2" Text="No Item Added" Foreground="#C9DAFF"/>
                 <!--<GridView
                         Grid.Row="3"
                         x:Name="eventS"
@@ -111,7 +113,7 @@
 
     <Page.BottomAppBar>
         <CommandBar >
-            <AppBarToggleButton Icon="RepeatAll" Label="Refresh" Click="refresh_Click"/>
+            <AppBarToggleButton x:Name="Refresh_Button" Icon="RepeatAll" Label="Refresh" Click="refresh_Click"/>
             <AppBarToggleButton Icon="Add" Label="Add" Click="Add_Click"/>
         </CommandBar>
     </Page.BottomAppBar>

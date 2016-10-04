@@ -26,6 +26,32 @@ namespace MyTask
             {
                 localFolder = ApplicationData.Current.LocalFolder;
                 StorageFile sampleFile = await localFolder.GetFileAsync("dataFile.txt");
+                StorageFile adsFile = await localFolder.GetFileAsync("addCheckFile.txt");
+                string date = await FileIO.ReadTextAsync(adsFile);
+                DateTime d = DateTime.Parse(date);
+                var v = d - DateTime.Today;
+                if(v.Days>=7)
+                {
+                   
+                        ToastVisual visual = new ToastVisual()
+                        {
+                            TitleText = new ToastText()
+                            {
+                                Text = "Looks like you aren't purchasing new products"
+                            }
+                        };
+                        ToastContent toastContent = new ToastContent()
+                        {
+                            Visual = visual
+                        };
+
+                        var toast = new ToastNotification(toastContent.GetXml());
+
+                        toast.ExpirationTime = DateTime.Now.AddHours(1);
+
+                        ToastNotificationManager.CreateToastNotifier().Show(toast);
+                        await FileIO.WriteTextAsync(adsFile, DateTime.Today.ToString());
+                }
                 IList<string> y = new List<string>();
                 y= await FileIO.ReadLinesAsync(sampleFile);
                 HttpClient cl = new HttpClient();

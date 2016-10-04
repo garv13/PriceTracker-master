@@ -32,7 +32,7 @@
                 <RadioButton x:Name="MenuButton3" Tag="" Content="Help" Style="{StaticResource SplitViewNavButtonStyle}"
                         Click="MenuButton3_Click"/>
 
-                <RadioButton x:Name="MenuButton4" Tag="" Content="Rate Us;"
+                <RadioButton x:Name="MenuButton4" Tag="" Content="Rate Us"
                         Style="{StaticResource SplitViewNavButtonStyle}" Click="MenuButton4_Click"/>
 
                 <RadioButton x:Name="MenuButton5" Tag="" Content="About" Style="{StaticResource SplitViewNavButtonStyle}"

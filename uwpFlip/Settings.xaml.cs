@@ -1,11 +1,11 @@
-﻿using Microsoft.AdMediator.Core.Models;
-using Microsoft.Advertising.WinRT.UI;
+﻿using Microsoft.Advertising.WinRT.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using VungleSDK;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Navigation;using Windows.System.Profile;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,79 +28,107 @@ namespace uwpFlip
     /// </summary>
     public sealed partial class Settings : Page
     {
+        private int AD_WIDTH = 728;
+        private int AD_HEIGHT = 90;
+        private const string WAPPLICATIONID = "fbbb7779-4ffd-4c42-92ad-526be5070406";
+        private const string WADUNITID = "11644014";
+        private const string MAPPLICATIONID = "7b01e63c-94b9-461a-a6b1-0f84540e8a9c";
+        private const string MADUNITID = "11644024";
+
+        private const string WAPPLICATIONID1 = "fbbb7779-4ffd-4c42-92ad-526be5070406";
+        private const string WADUNITID1 = "11644015";
+        private const string MAPPLICATIONID1 = "7b01e63c-94b9-461a-a6b1-0f84540e8a9c";
+        private const string MADUNITID1 = "11644025";
+
+        private AdControl myAdControl = null;
+        private AdControl myAdControl1 = null;
+
+        private string myAppId = WAPPLICATIONID;
+        private string myAdUnitId = WADUNITID;
+
+        private string myAppId1 = WAPPLICATIONID1;
+        private string myAdUnitId1 = WADUNITID1;
+        bool check = true;
         public Settings()
         {
             this.InitializeComponent();
+
+          
+
+            // For mobile device families, use the mobile ad unit info.
+            if ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily)
+            {
+                myAppId = MAPPLICATIONID;
+                myAdUnitId = MADUNITID;
+                myAppId1 = MAPPLICATIONID1;
+                myAdUnitId1 = MADUNITID1;
+                AD_HEIGHT = 50;
+                AD_WIDTH = 300;
+
+            }
+
+            myAdGrid.Width = AD_WIDTH;
+            myAdGrid.Height = AD_HEIGHT;
+
+            myAdGrid1.Width = AD_WIDTH;
+            myAdGrid1.Height = AD_HEIGHT;
+
+            // Initialize the AdControl.
+            myAdControl = new AdControl();
+            myAdControl.ApplicationId = myAppId;
+            myAdControl.AdUnitId = myAdUnitId;
+            myAdControl.Width = AD_WIDTH;
+            myAdControl.Height = AD_HEIGHT;
+            myAdControl.IsAutoRefreshEnabled = true;
+
+            myAdGrid.Children.Add(myAdControl);
+            myAdControl.IsAutoRefreshEnabled = true;
+            myAdControl.AutoRefreshIntervalInSeconds = 5;
+
+
+            myAdControl1 = new AdControl();
+            myAdControl1.ApplicationId = myAppId1;
+            myAdControl1.AdUnitId = myAdUnitId1;
+            myAdControl1.Width = AD_WIDTH;
+            myAdControl1.Height = AD_HEIGHT;
+            myAdControl1.IsAutoRefreshEnabled = true;
+
+            myAdGrid1.Children.Add(myAdControl1);
+            myAdControl1.IsAutoRefreshEnabled = true;
+            myAdControl1.AutoRefreshIntervalInSeconds = 5;
+
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            check = true;
             Loaded += Settings_Loaded;
             listLoad();
         }
         InterstitialAd MyVideoAd = new InterstitialAd();
-        string MyAppId;
-        string MyAdUnitId;
+  
+        VungleAd sdkInstance;
+  
 
         private void Settings_Loaded(object sender, RoutedEventArgs e)
         {
-            AdMediator_BFF56C.AdSdkTimeouts[AdSdkNames.MicrosoftAdvertising] = TimeSpan.FromSeconds(10);
-            AdMediator_BFF56C1.AdSdkTimeouts[AdSdkNames.MicrosoftAdvertising] = TimeSpan.FromSeconds(10);
-            bool isHardwareButtonsAPIPresent =
-                Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
-            if (isHardwareButtonsAPIPresent)
-            {
-                AdMediator_BFF56C1.Width = 640;
-                AdMediator_BFF56C.Width = 640;
-
-                AdMediator_BFF56C1.Height = 100;
-                AdMediator_BFF56C.Height = 100;
-
-
-                MyAppId = "	7b01e63c-94b9-461a-a6b1-0f84540e8a9c";
-                MyAdUnitId = "11644026";
-            }
-            else
-            {
-                MyAppId = "fbbb7779-4ffd-4c42-92ad-526be5070406";
-                MyAdUnitId = "11644016";
-            }
-            MyVideoAd.AdReady += MyVideoAd_AdReady;
-            MyVideoAd.ErrorOccurred += MyVideoAd_ErrorOccurred;
-            MyVideoAd.Completed += MyVideoAd_Completed;
-            MyVideoAd.Cancelled += MyVideoAd_Cancelled;
-            MyVideoAd.RequestAd(AdType.Video, MyAppId, MyAdUnitId);
-
-            if ((InterstitialAdState.Ready) == (MyVideoAd.State))
-            {
-                MyVideoAd.Show();
-            }
+          
+            sdkInstance = AdFactory.GetInstance("57e8278aee5b9daa1d000048");
+            sdkInstance.OnAdPlayableChanged += SdkInstance_OnAdPlayableChanged;
+            if (sdkInstance.AdPlayable)
+                SdkInstance_OnAdPlayableChanged(null,null);
 
         }
-        void MyVideoAd_AdReady(object sender, object e)
+
+        private async void SdkInstance_OnAdPlayableChanged(object sender, AdPlayableEventArgs e)
         {
-           
-            //AdMediator_BFF56C1.Pause();
-            //AdMediator_BFF56C.Pause();
-            if ((InterstitialAdState.Ready) == (MyVideoAd.State))
+            if (sdkInstance.AdPlayable && check)
             {
-                MyVideoAd.Show();
+                await sdkInstance.PlayAdAsync(new AdConfig());
+                check = false;
             }
         }
 
-        void MyVideoAd_ErrorOccurred(object sender, AdErrorEventArgs e)
-        {
-            AdMediator_BFF56C1.Resume();
-            AdMediator_BFF56C.Resume();
-        }
-
-        void MyVideoAd_Completed(object sender, object e)
-        {
-            AdMediator_BFF56C.Resume();
-            AdMediator_BFF56C1.Resume();
-        }
-
-        void MyVideoAd_Cancelled(object sender, object e)
-        {
-            AdMediator_BFF56C1.Resume();
-            AdMediator_BFF56C.Resume();
-        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
@@ -153,20 +181,18 @@ namespace uwpFlip
 
         private async void refresh_Click(object sender, RoutedEventArgs e)
         {
-            
+            Time_Button.IsEnabled = false;
+            Time_Button.IsChecked = false;            
             ProgressRing.IsActive = true;
             if(comboBox.SelectedValue==null)
             {
-                await (new MessageDialog("please select time")).ShowAsync();
+                await (new MessageDialog("Please select time")).ShowAsync();
+                Time_Button.IsEnabled = true;
                 Frame.Navigate(typeof(Settings));
                 return;
             }
             int j = 45;
             j = int.Parse(comboBox.SelectedValue.ToString());
-            //if(j==15 || j==30)
-            //{
-            //    message.Visibility = Visibility.Visible;
-            //}
                 uint i = uint.Parse(comboBox.SelectedValue.ToString());
                 string myTaskName = "priceTask";
 
@@ -186,8 +212,10 @@ namespace uwpFlip
                     BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder { Name = "priceTask", TaskEntryPoint = "MyTask.Class1" };
                     taskBuilder.SetTrigger(new TimeTrigger(i, false));
                     BackgroundTaskRegistration myFirstTask = taskBuilder.Register();
-                    await (new MessageDialog("Tracking Started")).ShowAsync();
-                }                 
+                    await (new MessageDialog("Time Changed")).ShowAsync();
+                    Time_Button.IsEnabled = true;
+
+            }
             ProgressRing.IsActive = false;
         }
     }

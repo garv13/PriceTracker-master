@@ -179,7 +179,8 @@ namespace uwpFlip
         private async void Add_Click(object sender, RoutedEventArgs e)
         {
             string str;
-          
+            Link_Button.IsEnabled = false;
+            Link_Button.IsChecked = false;
             if (snap.Visibility == Visibility.Collapsed)
             {
                 name = textBoxN.Text;
@@ -187,6 +188,7 @@ namespace uwpFlip
                 {
                     await (new MessageDialog("enter name of product...")).ShowAsync();
                     textBoxN.Focus(FocusState.Pointer);
+                    Link_Button.IsEnabled = true;
                     return;
                 }
                 if (textBox.Text.Length > MyWebview.Source.OriginalString.Length)
@@ -194,6 +196,7 @@ namespace uwpFlip
                 else
                     str = MyWebview.Source.OriginalString;
                 await urlAdd(str, 1);
+                Link_Button.IsEnabled = true;
             }
 
             else
@@ -203,6 +206,7 @@ namespace uwpFlip
                 {
                     await (new MessageDialog("enter name of product...")).ShowAsync();
                     textBox2.Focus(FocusState.Pointer);
+                    Link_Button.IsEnabled = true;
                     return;
                 }
                 if (textBox1.Text.Length > MyWebview1.Source.OriginalString.Length)
@@ -210,6 +214,7 @@ namespace uwpFlip
                 else
                     str = MyWebview1.Source.OriginalString;
                 await urlAdd(str, 2);
+                Link_Button.IsEnabled = true;
             }
         }
 
@@ -317,6 +322,7 @@ namespace uwpFlip
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.co.jp"));
             httpRequestMessage.Headers.Add("User-Agent", add);
             MyWebview.NavigateWithHttpRequestMessage(httpRequestMessage);
+            frstScreen.Visibility = Visibility.Collapsed;
             flip.Visibility = Visibility.Visible;
         }
     }

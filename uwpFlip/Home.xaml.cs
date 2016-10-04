@@ -1,5 +1,4 @@
-﻿using Microsoft.AdMediator.Core.Models;
-using Microsoft.Advertising.WinRT.UI;
+﻿using Microsoft.Advertising.WinRT.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
+using VungleSDK;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.ApplicationModel.Background;
+using Windows.System.Profile;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace uwpFlip
@@ -31,9 +34,73 @@ namespace uwpFlip
     /// </summary>
     public sealed partial class Home : Page
     {
+        private int AD_WIDTH = 728;
+        private int AD_HEIGHT = 90;
+        private const string WAPPLICATIONID = "fbbb7779-4ffd-4c42-92ad-526be5070406";
+        private const string WADUNITID = "11644012";
+        private const string MAPPLICATIONID = "7b01e63c-94b9-461a-a6b1-0f84540e8a9c";
+        private const string MADUNITID = "11644022";
+
+        private const string WAPPLICATIONID1 = "fbbb7779-4ffd-4c42-92ad-526be5070406";
+        private const string WADUNITID1 = "11644013";
+        private const string MAPPLICATIONID1 = "7b01e63c-94b9-461a-a6b1-0f84540e8a9c";
+        private const string MADUNITID1 = "	11644023";
+
+        private AdControl myAdControl = null;
+        private AdControl myAdControl1 = null;
+        private string myAppId = WAPPLICATIONID;
+        private string myAdUnitId = WADUNITID;
+
+        private string myAppId1 = WAPPLICATIONID1;
+        private string myAdUnitId1 = WADUNITID1;
+
         public Home()
         {
             this.InitializeComponent();
+
+          
+
+            // For mobile device families, use the mobile ad unit info.
+            if ("Windows.Mobile" == AnalyticsInfo.VersionInfo.DeviceFamily)
+            {
+                myAppId = MAPPLICATIONID;
+                myAdUnitId = MADUNITID;
+                myAppId1 = MAPPLICATIONID1;
+                myAdUnitId1 = MADUNITID1;
+                AD_HEIGHT = 50;
+                AD_WIDTH = 300;
+            }
+
+            myAdGrid.Width = AD_WIDTH;
+            myAdGrid.Height = AD_HEIGHT;
+
+            myAdGrid1.Width = AD_WIDTH;
+            myAdGrid1.Height = AD_HEIGHT;
+
+            // Initialize the AdControl.
+            myAdControl = new AdControl();
+            myAdControl.ApplicationId = myAppId;
+            myAdControl.AdUnitId = myAdUnitId;
+            myAdControl.Width = AD_WIDTH;
+            myAdControl.Height = AD_HEIGHT;
+            myAdControl.IsAutoRefreshEnabled = true;
+
+            myAdGrid.Children.Add(myAdControl);
+            myAdControl.IsAutoRefreshEnabled = true;
+            myAdControl.AutoRefreshIntervalInSeconds = 5;
+
+
+            myAdControl1 = new AdControl();
+            myAdControl1.ApplicationId = myAppId1;
+            myAdControl1.AdUnitId = myAdUnitId1;
+            myAdControl1.Width = AD_WIDTH;
+            myAdControl1.Height = AD_HEIGHT;
+            myAdControl1.IsAutoRefreshEnabled = true;
+
+            myAdGrid1.Children.Add(myAdControl1);
+            myAdControl1.IsAutoRefreshEnabled = true;
+            myAdControl1.AutoRefreshIntervalInSeconds = 5;
+
         }
 
         StorageFolder localFolder;
@@ -43,92 +110,106 @@ namespace uwpFlip
         List<ProductList> items1 = new List<ProductList>();
         List<ProductList> itemsDelet = new List<ProductList>();
         InterstitialAd MyVideoAd = new InterstitialAd();
-        string MyAppId;
-        string MyAdUnitId;
+        VungleAd sdkInstance;
+        bool check = true;
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            check = true;
             Loaded += Home_Loaded;
             await refresh();   
         }
-
-        private void Home_Loaded(object sender, RoutedEventArgs e)
+        private async void Home_Loaded(object sender, RoutedEventArgs e)
         {
-            AdMediator_24D058.AdSdkTimeouts[AdSdkNames.MicrosoftAdvertising] = TimeSpan.FromSeconds(10);
-            AdMediator_6351B3.AdSdkTimeouts[AdSdkNames.MicrosoftAdvertising] = TimeSpan.FromSeconds(10);
-            bool isHardwareButtonsAPIPresent =
-                Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons");
-            if (isHardwareButtonsAPIPresent)
+            string myTaskName = "priceTask";
+            bool flag = true;
+            try
             {
-                AdMediator_6351B3.Width = 640;
-                AdMediator_24D058.Width = 640;
-
-                AdMediator_6351B3.Height = 100;
-                AdMediator_24D058.Height = 100;
-
-
-                MyAppId = "	7b01e63c-94b9-461a-a6b1-0f84540e8a9c";
-                MyAdUnitId = "11644027";
+                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                    if (cur.Value.Name == myTaskName)
+                        flag = false;
+                if (flag)
+                {
+                    var allowed = await BackgroundExecutionManager.RequestAccessAsync();
+                    // register a new task
+                    if ((allowed == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity) || (allowed == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity))
+                    {
+                        BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder { Name = "priceTask", TaskEntryPoint = "MyTask.Class1" };
+                        taskBuilder.SetTrigger(new TimeTrigger(120, false));
+                        BackgroundTaskRegistration myFirstTask = taskBuilder.Register();
+                    }
+                }
+                sdkInstance = AdFactory.GetInstance("57e8278aee5b9daa1d000048");
+                sdkInstance.OnAdPlayableChanged += SdkInstance_OnAdPlayableChanged;
+                if (sdkInstance.AdPlayable)
+                    SdkInstance_OnAdPlayableChanged(this,new AdPlayableEventArgs(true));
             }
-            else
+            catch (Exception)
             {
-                MyAppId = "fbbb7779-4ffd-4c42-92ad-526be5070406";
-                MyAdUnitId = "11644017";
-            }
-            MyVideoAd.AdReady += MyVideoAd_AdReady;
-            MyVideoAd.ErrorOccurred += MyVideoAd_ErrorOccurred;
-            MyVideoAd.Completed += MyVideoAd_Completed;
-            MyVideoAd.Cancelled += MyVideoAd_Cancelled;
-            MyVideoAd.RequestAd(AdType.Video, MyAppId, MyAdUnitId);
 
-            if ((InterstitialAdState.Ready) == (MyVideoAd.State))
-            {
-                MyVideoAd.Show();
-            }
-
-        }
-
-        void MyVideoAd_AdReady(object sender, object e)
-        {
-
-            //AdMediator_6351B3.Pause();
-            //AdMediator_24D058.Pause();
-            if ((InterstitialAdState.Ready) == (MyVideoAd.State))
-            {
-                MyVideoAd.Show();
             }
         }
 
-        void MyVideoAd_ErrorOccurred(object sender, AdErrorEventArgs e)
+        private async void SdkInstance_OnAdPlayableChanged(object sender, AdPlayableEventArgs e)
         {
-            AdMediator_6351B3.Resume();
-            AdMediator_24D058.Resume();
+            if (sdkInstance.AdPlayable && check)
+            {
+                await sdkInstance.PlayAdAsync(new AdConfig());
+                check = false;
+            }
         }
 
-        void MyVideoAd_Completed(object sender, object e)
-        {
-            AdMediator_24D058.Resume();
-            AdMediator_6351B3.Resume();
-        }
+        //void MyVideoAd_AdReady(object sender, object e)
+        //{
 
-        void MyVideoAd_Cancelled(object sender, object e)
-        {
-            AdMediator_6351B3.Resume();
-            AdMediator_24D058.Resume();
-        }
+        //    //AdMediator_6351B3.Pause();
+        //    //AdMediator_24D058.Pause();
+        //    if ((InterstitialAdState.Ready) == (MyVideoAd.State))
+        //    {
+        //        MyVideoAd.Show();
+        //    }
+        //}
+
+        //void MyVideoAd_ErrorOccurred(object sender, AdErrorEventArgs e)
+        //{
+        //    AdMediator_6351B3.Resume();
+        //    AdMediator_24D058.Resume();
+        //}
+
+        //void MyVideoAd_Completed(object sender, object e)
+        //{
+        //    AdMediator_24D058.Resume();
+        //    AdMediator_6351B3.Resume();
+        //}
+
+        //void MyVideoAd_Cancelled(object sender, object e)
+        //{
+        //    AdMediator_6351B3.Resume();
+        //    AdMediator_24D058.Resume();
+        //}
         private async Task refresh()
         {
+            No_Item_Text.Visibility = Visibility.Collapsed;
+            loading_Bar.IsIndeterminate = true;
+            loading_Bar.Visibility = Visibility.Visible;
+            Refresh_Button.IsEnabled = false;
+            Refresh_Button.IsChecked = false;
+           
             List<char> pri = new List<char>();
 
             try
             {
                 localFolder = ApplicationData.Current.LocalFolder;
                 StorageFile sampleFile = await localFolder.CreateFileAsync("dataFile.txt", CreationCollisionOption.OpenIfExists);
+                StorageFile adsFile = await localFolder.CreateFileAsync("addCheckFile.txt", CreationCollisionOption.OpenIfExists);
+                await FileIO.WriteTextAsync(adsFile, DateTime.Today.ToString());
+
                 IList<string> y = new List<string>();
                 y = await FileIO.ReadLinesAsync(sampleFile);
                 string change = File.ReadAllText(sampleFile.Path);
                 if(y.Count == 0)
                 {
-                    await (new MessageDialog("No Item added")).ShowAsync();
+                    No_Item_Text.Visibility = Visibility.Visible;
+                    loading_Bar.Visibility = Visibility.Collapsed;
                     return;
 
                 }
@@ -234,9 +315,9 @@ namespace uwpFlip
                 }
 
                 eventF.DataContext = items;
-            //    eventS.DataContext = items1;
-                await (new MessageDialog("Prices Updated")).ShowAsync();
-
+                //    eventS.DataContext = items1;
+                loading_Bar.Visibility = Visibility.Collapsed;
+                Refresh_Button.IsEnabled = true;
             }
             catch (Exception)
             {
