@@ -50,8 +50,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="92"/>
                 </Grid.RowDefinitions>
-                <Grid x:Name="myAdGrid" Grid.Row="1" HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Top" Width="728"/>
-                <Grid x:Name="myAdGrid1" Grid.Row="3" HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Top" Width="728"/>
+                <Grid x:Name="myAdGrid" Grid.Row="1" HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Stretch" Width="728"/>
+                <Grid x:Name="myAdGrid1" Grid.Row="3" HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Stretch" Width="728"/>
                      <ProgressRing x:Name="ProgressRing" IsActive="False"/>
                 <Grid Grid.Row="0" Background="#171717">
                     <TextBlock Text="Preferences" Foreground="White" FontSize="20px" Margin="5,0,0,0"/>
@@ -64,7 +64,7 @@
                         <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <ComboBox Name="comboBox" Grid.Column="1" Margin="0,10,0,0" Grid.Row="1" Header="Select Time (minutes)" ItemsSource="{Binding}">
+                    <ComboBox Name="comboBox" Grid.Column="1" Grid.ColumnSpan="2" Header="Select Time (Minutes)" ItemsSource="{Binding}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}"/>

@@ -153,39 +153,16 @@ namespace uwpFlip
         {
             if (sdkInstance.AdPlayable && check)
             {
+                if(myAdControl.HasAd)
+                    myAdControl.Suspend();
+                if(myAdControl1.HasAd)
+                    myAdControl1.Suspend();
                 await sdkInstance.PlayAdAsync(new AdConfig());
                 check = false;
             }
+            myAdControl.Resume();
+            myAdControl1.Resume();
         }
-
-        //void MyVideoAd_AdReady(object sender, object e)
-        //{
-
-        //    //AdMediator_6351B3.Pause();
-        //    //AdMediator_24D058.Pause();
-        //    if ((InterstitialAdState.Ready) == (MyVideoAd.State))
-        //    {
-        //        MyVideoAd.Show();
-        //    }
-        //}
-
-        //void MyVideoAd_ErrorOccurred(object sender, AdErrorEventArgs e)
-        //{
-        //    AdMediator_6351B3.Resume();
-        //    AdMediator_24D058.Resume();
-        //}
-
-        //void MyVideoAd_Completed(object sender, object e)
-        //{
-        //    AdMediator_24D058.Resume();
-        //    AdMediator_6351B3.Resume();
-        //}
-
-        //void MyVideoAd_Cancelled(object sender, object e)
-        //{
-        //    AdMediator_6351B3.Resume();
-        //    AdMediator_24D058.Resume();
-        //}
         private async Task refresh()
         {
             No_Item_Text.Visibility = Visibility.Collapsed;
@@ -201,7 +178,7 @@ namespace uwpFlip
                 localFolder = ApplicationData.Current.LocalFolder;
                 StorageFile sampleFile = await localFolder.CreateFileAsync("dataFile.txt", CreationCollisionOption.OpenIfExists);
                 StorageFile adsFile = await localFolder.CreateFileAsync("addCheckFile.txt", CreationCollisionOption.OpenIfExists);
-                await FileIO.WriteTextAsync(adsFile, DateTime.Today.ToString());
+                await FileIO.WriteTextAsync(adsFile, DateTime.Now.ToString());
 
                 IList<string> y = new List<string>();
                 y = await FileIO.ReadLinesAsync(sampleFile);
@@ -237,12 +214,7 @@ namespace uwpFlip
                     }
                     str = string.Join("", pri.ToArray());
                     float i = float.Parse(str);
-
                     p1.current_Price = i.ToString();
-                    //if (i < p.price)
-                    //{
-                    //    p.price = i;
-                    //}
 
                     
                     lol:

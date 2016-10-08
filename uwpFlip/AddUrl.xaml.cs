@@ -77,7 +77,7 @@ namespace uwpFlip
         private async void Image_Tapped(object sender, TappedRoutedEventArgs e)
         {
             await(new MessageDialog("Not Available now :(:( Will be added soon!!!!")).ShowAsync();
-            //var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            //var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             //ChangeUserAgent(add);
             //MyWebview.Navigate(new Uri("http://flipkart.com", UriKind.Absolute));
 
@@ -87,7 +87,7 @@ namespace uwpFlip
 
         private void Image_Tapped_1(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
 
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://snapdeal.com"));
             httpRequestMessage.Headers.Add("User-Agent", add);
@@ -227,7 +227,7 @@ namespace uwpFlip
 
         private void Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://jabong.com"));
             httpRequestMessage.Headers.Add("User-Agent", add);
             //ChangeUserAgent(add);
@@ -239,7 +239,7 @@ namespace uwpFlip
 
         private void Button_Tapped_2(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             //  ChangeUserAgent(add);
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.com"));
             httpRequestMessage.Headers.Add("User-Agent", add);
@@ -252,7 +252,7 @@ namespace uwpFlip
              WebView sender,
              WebViewNewWindowRequestedEventArgs args)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, args.Uri);
             httpRequestMessage.Headers.Add("User-Agent", add);
 
@@ -264,7 +264,7 @@ namespace uwpFlip
            WebView sender,
            WebViewNewWindowRequestedEventArgs args)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, args.Uri);
             httpRequestMessage.Headers.Add("User-Agent", add);
             MyWebview1.NavigateWithHttpRequestMessage(httpRequestMessage);
@@ -272,7 +272,7 @@ namespace uwpFlip
         }
         private void Button_Tapped_3(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             //ChangeUserAgent(add);
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.in"));
             httpRequestMessage.Headers.Add("User-Agent", add);
@@ -284,7 +284,7 @@ namespace uwpFlip
 
         private void Button_Tapped_4(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             // ChangeUserAgent(add);
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.it"));
             httpRequestMessage.Headers.Add("User-Agent", add);
@@ -295,7 +295,7 @@ namespace uwpFlip
 
         private void Button_Tapped_5(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             // ChangeUserAgent(add);
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.co.uk"));
             httpRequestMessage.Headers.Add("User-Agent", add);
@@ -306,7 +306,7 @@ namespace uwpFlip
 
         private void Button_Tapped_6(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             // ChangeUserAgent(add);
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.de"));
             httpRequestMessage.Headers.Add("User-Agent", add);
@@ -317,7 +317,7 @@ namespace uwpFlip
 
         private void Button_Tapped_7(object sender, TappedRoutedEventArgs e)
         {
-            var add = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246";
+            var add = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
             //ChangeUserAgent(add);
             var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, new Uri("http://amazon.co.jp"));
             httpRequestMessage.Headers.Add("User-Agent", add);

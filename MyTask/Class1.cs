@@ -29,8 +29,9 @@ namespace MyTask
                 StorageFile adsFile = await localFolder.GetFileAsync("addCheckFile.txt");
                 string date = await FileIO.ReadTextAsync(adsFile);
                 DateTime d = DateTime.Parse(date);
-                var v = d - DateTime.Today;
-                if(v.Days>=7)
+                var v = DateTime.Now;
+                TimeSpan ct = v - d; 
+                if(ct.TotalDays >= 7)
                 {
                    
                         ToastVisual visual = new ToastVisual()
@@ -58,10 +59,8 @@ namespace MyTask
                 foreach (string item in y)
                 {
                     p = JsonConvert.DeserializeObject<Product>(item);
-                    string str = await cl.GetStringAsync(p.url);
-                    int j = str.IndexOf(';');
-                    char[] name = str.ToCharArray(0, j - 1);
-                    char[] arr = str.ToCharArray(j, str.Length-j);
+                    string str = await cl.GetStringAsync(p.url);                
+                    char[] arr = str.ToCharArray();
                     pri.Clear();
                     foreach (char p in arr)
                     {
@@ -72,7 +71,7 @@ namespace MyTask
                     }
                     str = string.Join("", pri.ToArray());
                     float i = float.Parse(str);
-                    if (i < p.price)
+                    if (i < p.price)    //change for testing
                     {
                         pName.Add(p.name);
                         flag = true;

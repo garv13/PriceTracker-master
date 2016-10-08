@@ -48,7 +48,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Grid.ColumnSpan="3" Background="#171717">
-                    <TextBlock Text="Add Url" FontSize="30" Margin="5,0,0,0"/>
+                    <TextBlock Text="Add Url" FontSize="20" Margin="5,0,0,0"/>
                 </Grid>
                 <GridView x:Name="frstScreen" Grid.Row="1" Visibility="Visible"
                             ScrollViewer.HorizontalScrollMode="Disabled" 

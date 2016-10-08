@@ -1,4 +1,4 @@
-MainPackage=E:\me\comp codes\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.0.3.0_ARM.appx
-SymbolPackage=E:\me\comp codes\PriceTracker-master\lol\lol1\uwpFlip_1.0.3.0_Test\uwpFlip_1.0.3.0_ARM.appxsym
-ResourcePack=E:\me\comp codes\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.0.3.0_scale-100.appx
-ResourcePack=E:\me\comp codes\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.0.3.0_scale-400.appx
+MainPackage=E:\me\comp codes\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.0.5.0_ARM.appx
+SymbolPackage=E:\me\comp codes\PriceTracker-master\lol\lol1\uwpFlip_1.0.5.0_Test\uwpFlip_1.0.5.0_ARM.appxsym
+ResourcePack=E:\me\comp codes\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.0.5.0_scale-100.appx
+ResourcePack=E:\me\comp codes\PriceTracker-master\PriceTracker-master\uwpFlip\bin\ARM\Release\uwpFlip_1.0.5.0_scale-400.appx

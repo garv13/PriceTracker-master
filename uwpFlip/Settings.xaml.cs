@@ -124,9 +124,15 @@ namespace uwpFlip
         {
             if (sdkInstance.AdPlayable && check)
             {
+                if (myAdControl.HasAd)
+                    myAdControl.Suspend();
+                if (myAdControl1.HasAd)
+                    myAdControl1.Suspend();
                 await sdkInstance.PlayAdAsync(new AdConfig());
                 check = false;
             }
+            myAdControl.Resume();
+            myAdControl1.Resume();
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -161,7 +167,6 @@ namespace uwpFlip
             }
         }
 
-
         private void MenuButton5_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(About));
@@ -172,40 +177,50 @@ namespace uwpFlip
             List<string> t = new List<string>();
             t.Add("15");
             t.Add("30");
-            t.Add("45");
             t.Add("60");
-            t.Add("90");
             t.Add("120");
+            t.Add("6 Hrs");
+            t.Add("1 Day");
             comboBox.DataContext = t;
+            comboBox.SelectedValue = "120";
         }
 
         private async void refresh_Click(object sender, RoutedEventArgs e)
         {
-            Time_Button.IsEnabled = false;
-            Time_Button.IsChecked = false;            
-            ProgressRing.IsActive = true;
-            if(comboBox.SelectedValue==null)
+            try
             {
-                await (new MessageDialog("Please select time")).ShowAsync();
-                Time_Button.IsEnabled = true;
-                Frame.Navigate(typeof(Settings));
-                return;
-            }
-            int j = 45;
-            j = int.Parse(comboBox.SelectedValue.ToString());
-                uint i = uint.Parse(comboBox.SelectedValue.ToString());
+                Time_Button.IsEnabled = false;
+                Time_Button.IsChecked = false;
+                ProgressRing.IsActive = true;
+                if (comboBox.SelectedValue == null)
+                {
+                    await (new MessageDialog("Please select time")).ShowAsync();
+                    Time_Button.IsEnabled = true;
+                    Frame.Navigate(typeof(Settings));
+                    return;
+                }
+                string j;
+                uint i;
+                j = comboBox.SelectedValue.ToString();
+                if (j.CompareTo("6 Hrs") == 0)
+                    i = 360;
+                else
+                    if (j.CompareTo("1 Day") == 0)
+                         i = 1440;
+                else
+                    i = uint.Parse(comboBox.SelectedValue.ToString());
                 string myTaskName = "priceTask";
 
-                
+
                 // check if task is already registered
                 foreach (var cur in BackgroundTaskRegistration.AllTasks)
                     if (cur.Value.Name == myTaskName)
                     {
                         cur.Value.Unregister(true);
                     }
-                             
-                    // Windows Phone app must call this to use trigger types (see MSDN)
-                    var allowed = await BackgroundExecutionManager.RequestAccessAsync();
+
+                // Windows Phone app must call this to use trigger types (see MSDN)
+                var allowed = await BackgroundExecutionManager.RequestAccessAsync();
                 // register a new task
                 if ((allowed == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity) || (allowed == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity))
                 {
@@ -215,8 +230,13 @@ namespace uwpFlip
                     await (new MessageDialog("Time Changed")).ShowAsync();
                     Time_Button.IsEnabled = true;
 
+                }
+                ProgressRing.IsActive = false;
             }
-            ProgressRing.IsActive = false;
-        }
+            catch(Exception)
+            {
+
+            }
+         }
     }
 }
